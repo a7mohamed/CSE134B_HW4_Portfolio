@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio website for a CS student at UCSD showcasing web development projects and skills">
+    <meta name="author" content="Your Name">
+    <title>Your Name - CS Student Portfolio</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        /* Only border for structure - staying under 3 CSS properties */
+        skill-badge {
+            border: 2px solid black;
+        }
+        
+        project-card {
+            border: 1px solid gray;
+        }
+    </style>
+    <script>
+        // Hello World custom element
+        class HelloWorld extends HTMLElement {
+            connectedCallback() {
+                console.log("Hello world!");
+            }
+        }
+        customElements.define('hello-world', HelloWorld);
+    </script>
+</head>
+<body>
+    <hello-world></hello-world>
+    
+    <header>
+        <h1>Your Name</h1>
+        <p><strong>Computer Science Student at UCSD</strong></p>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="experiments.html">Experiments</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Welcome to My Portfolio</h2>
+            <p>Hello! I'm a <em>passionate</em> Computer Science student at the <b>University of California, San Diego</b>. I specialize in web development and am constantly learning new technologies to build innovative solutions.</p>
+            
+            <p>This portfolio showcases my journey as a developer, featuring projects I've built using <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong>. Feel free to explore my work and get in touch!</p>
+            
+            <br>
+            
+            <div>
+                <picture>
+                    <source srcset="profile-photo-large.jpg" media="(min-width: 800px)">
+                    <source srcset="profile-photo-medium.jpg" media="(min-width: 400px)">
+                    <img src="profile-photo.jpg" alt="Your Name - Professional Photo" width="300" height="300">
+                </picture>
+            </div>
+        </section>
+
+        <section>
+            <h2>Recent Highlights</h2>
+            
+            <project-card>
+                <article>
+                    <h3>Latest Project</h3>
+                    <p>Check out my most recent work: a <i>responsive web application</i> built with modern HTML5 techniques.</p>
+                    <a href="projects.html">View All Projects</a>
+                </article>
+            </project-card>
+
+            <br>
+
+            <project-card>
+                <article>
+                    <h3>Skills Overview</h3>
+                    <p>I'm proficient in multiple programming languages and frameworks. My technical toolkit includes:</p>
+                    <div>
+                        <skill-badge>HTML5</skill-badge>
+                        <skill-badge>CSS3</skill-badge>
+                        <skill-badge>JavaScript</skill-badge>
+                        <skill-badge>Python</skill-badge>
+                        <skill-badge>Git</skill-badge>
+                    </div>
+                    <br><br>
+                    <a href="skills.html">See Full Skills List</a>
+                </article>
+            </project-card>
+        </section>
+
+        <section>
+            <h2>Quick Stats</h2>
+            <div>
+                <p><b>HTML Proficiency</b></p>
+                <progress value="85" max="100">85%</progress>
+                <span>85%</span>
+            </div>
+            
+            <br>
+            
+            <div>
+                <p><b>JavaScript Knowledge</b></p>
+                <progress value="70" max="100">70%</progress>
+                <span>70%</span>
+            </div>
+        </section>
+
+        <section>
+            <h2>Featured Demo</h2>
+            <iframe src="demo-placeholder.html" width="600" height="400" title="Project Demo"></iframe>
+            <noscript>
+                <p>Your browser does not support iframes or has JavaScript disabled. Please enable it for the best experience.</p>
+            </noscript>
+        </section>
+
+        <section>
+            <h2>Educational Path</h2>
+            <ol>
+                <li>Started Computer Science program at UCSD</li>
+                <li>Completed introductory programming courses</li>
+                <li>Learned web development fundamentals</li>
+                <li>Built first portfolio website</li>
+                <li>Currently expanding full-stack skills</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Quick Contact</h2>
+            <form action="submit-form.php" method="post">
+                <fieldset>
+                    <legend>Send Me a Message</legend>
+                    
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    
+                    <br><br>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <br><br>
+                    
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" cols="50"></textarea>
+                    
+                    <br><br>
+                    
+                    <button type="submit">Send Message</button>
+                    <button type="reset">Clear Form</button>
+                </fieldset>
+            </form>
+        </section>
+
+        <section>
+            <h2>SVG Icon Example</h2>
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="lightblue" />
+            </svg>
+            
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="80" height="80" x="10" y="10" fill="lightgreen" />
+            </svg>
+        </section>
+
+        <section>
+            <h2>Template Structure Example</h2>
+            <p>This template defines reusable project card structure:</p>
+            <template id="project-template">
+                <article>
+                    <h3>Project Title</h3>
+                    <p>Project description goes here</p>
+                    <span>Technologies: HTML, CSS, JS</span>
+                </article>
+            </template>
+            <p>The template is defined but not instantiated in this HTML-only version.</p>
+        </section>
+
+        <dialog id="welcome-dialog">
+            <p>Welcome to my portfolio! This is a dialog element demonstrating HTML5 features.</p>
+            <button>Close</button>
+        </dialog>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="https://github.com/yourusername" target="_blank">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a></li>
+                <li><a href="mailto:your.email@ucsd.edu">Email</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <noscript>
+        <p>This website works best with JavaScript enabled. Some features may not function properly.</p>
+    </noscript>
+</body>
+</html>
