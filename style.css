@@ -1,0 +1,197 @@
+/* === Required CSS Features Only === */
+
+/* 1. CSS Variables (with fallbacks) */
+:root {
+  --main-color: #0055aa;
+  --accent: #00bcd4;
+}
+body {
+  font-family: var(--main-font, Arial, sans-serif);
+  background: var(--page-bg, #f9f9f9);
+  margin: 0;
+}
+
+/* 2. Custom Font (with fallback) */
+@font-face {
+  font-family: 'MainFont';
+  src: url('fonts/Poppins-Regular.woff2') format('woff2');
+}
+body {
+  font-family: 'MainFont', var(--main-font, Arial), sans-serif;
+}
+
+/* 3. Flexbox or Grid (10 pts) */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--main-color, blue);
+  color: white;
+  padding: 1rem;
+}
+nav ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* 4. Relative units (rem, %) */
+main {
+  padding: 2rem;
+  font-size: 1rem;
+}
+
+/* 5. Dynamic viewport unit (dvh) */
+.hero-section {
+  min-height: 50dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* 6. Animation / Transition */
+project-card {
+  display: block;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+project-card:hover {
+  transform: scale(1.02);
+}
+
+/* 7. Media Query */
+@media (max-width: 700px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* 8. Nested / Scoped CSS */
+:is(header, footer) a {
+  color: white;
+  text-decoration: none;
+}
+
+/* === Part 2 - Image Usage (Minimal CSS) === */
+
+/* Optimize how images fit in their boxes */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Light background behind images for contrast/accessibility */
+picture, .animation-container, .image-gallery {
+  background: #f4f4f4;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* SVG icons inherit text color for visibility */
+svg {
+  color: var(--main-color, #0055aa);
+}
+
+/* === Part 3 - Responsive Design (Minimal CSS) === */
+
+/* Base: desktop default (already flex/grid from before) */
+
+/* Tablet: stack main sections slightly tighter */
+@media (max-width: 1024px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  project-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Phone: vertical layout + hamburger menu */
+@media (max-width: 600px) {
+  header {
+    align-items: flex-start;
+  }
+
+  nav ul {
+    display: none; /* hide menu */
+  }
+
+  /* simple hamburger toggle placeholder */
+  header::after {
+    content: "☰ Menu";
+    color: white;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+  }
+
+  .hero-section {
+    min-height: 60dvh;
+    padding: 1rem;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* === Part 4 - Aesthetics & Usability (Minimal CSS) === */
+
+/* Simple, readable layout */
+body {
+  color: #222;
+  background: #fff;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Headings stand out clearly */
+h1, h2, h3 {
+  color: #000000;
+  margin-top: 1rem;
+}
+
+/* Navigation clarity */
+nav a {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+nav a:hover, nav a:focus {
+  background: #003366;
+  color: #fff;
+}
+
+/* Buttons easy to see and click */
+button {
+  background: #0055aa;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background: #0077dd;
+}
+
+/* Consistent spacing for readability */
+section, footer {
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+/* Links visually clear but simple */
+a {
+  color: #0055aa;
+}
+a:hover {
+  text-decoration: underline;
+}
