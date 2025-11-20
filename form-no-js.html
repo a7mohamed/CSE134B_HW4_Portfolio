@@ -7,13 +7,14 @@
     <title>Contact Form - Abdirahman Mohamed</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="view-transitions.css">
     <style>
         /* Form-specific styling with Flexbox */
         .form-container {
             max-width: 600px;
             margin: 2rem auto;
             padding: 2rem;
-            background: #f9f9f9;
+            background: var(--form-bg);
             border-radius: 8px;
         }
 
@@ -31,19 +32,33 @@
 
         label {
             font-weight: bold;
-            color: #222;
+            color: var(--text-color);
         }
 
         input[type="text"],
         input[type="email"],
         textarea {
             padding: 0.75rem;
-            border: 2px solid #ccc;
+            border: 2px solid var(--input-border);
             border-radius: 4px;
             font-size: 1rem;
             font-family: inherit;
             width: 100%;
             box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        /* Valid state - green border (only after user types) */
+        input:valid:not(:placeholder-shown),
+        textarea:valid:not(:placeholder-shown) {
+            border-color: #4caf50;
+        }
+
+        /* Invalid state - red border (only after user types) */
+        input:invalid:not(:placeholder-shown),
+        textarea:invalid:not(:placeholder-shown) {
+            border-color: #d32f2f;
         }
 
         input:focus,
@@ -58,7 +73,7 @@
         }
 
         button[type="submit"] {
-            background: #0055aa;
+            background: var(--button-bg);
             color: white;
             border: none;
             padding: 1rem 2rem;
@@ -69,7 +84,7 @@
         }
 
         button[type="submit"]:hover {
-            background: #0077dd;
+            background: var(--button-hover);
         }
 
         /* Output elements styling */
@@ -96,9 +111,26 @@
         output:empty {
             display: none;
         }
+
+        /* Helper text styling */
+        .helper-text {
+            font-size: 0.875rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        🌙 Dark Mode
+    </button>
+
+    <noscript>
+        <div class="theme-toggle-nojs">
+            ⚠️ Theme toggle requires JavaScript. Default light mode is active.
+        </div>
+    </noscript>
+
     <header>
         <h1>Abdirahman Mohamed</h1>
         <p><strong>Computer Science Student at UCSD</strong></p>
@@ -130,8 +162,13 @@
                         type="text" 
                         id="name" 
                         name="name" 
-                        required 
-                        placeholder="Enter your full name">
+                        required
+                        minlength="2"
+                        maxlength="100"
+                        pattern="[A-Za-z\s\-']+"
+                        placeholder="Enter your full name"
+                        title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only)">
+                    <span class="helper-text">2-100 characters, letters only</span>
                 </div>
 
                 <div class="form-group">
@@ -140,8 +177,11 @@
                         type="email" 
                         id="email" 
                         name="email" 
-                        required 
-                        placeholder="your.email@example.com">
+                        required
+                        maxlength="254"
+                        placeholder="your.email@example.com"
+                        title="Please enter a valid email address">
+                    <span class="helper-text">Must be a valid email format</span>
                 </div>
 
                 <div class="form-group">
@@ -149,8 +189,11 @@
                     <textarea 
                         id="comments" 
                         name="comments" 
-                        required 
-                        placeholder="Enter your message here..."></textarea>
+                        required
+                        minlength="10"
+                        placeholder="Enter your message here..."
+                        title="Please enter at least 10 characters"></textarea>
+                    <span class="helper-text">Minimum 10 characters</span>
                 </div>
 
                 <div class="form-group">
@@ -158,8 +201,13 @@
                     <input 
                         type="text" 
                         id="subject" 
-                        name="subject" 
-                        placeholder="What is this regarding?">
+                        name="subject"
+                        minlength="3"
+                        maxlength="200"
+                        pattern="[A-Za-z0-9\s\-!?.,']+"
+                        placeholder="What is this regarding?"
+                        title="3-200 characters, letters, numbers, and common punctuation only">
+                    <span class="helper-text">Optional - 3-200 characters</span>
                 </div>
 
                 <button type="submit">Send Message</button>
@@ -181,5 +229,9 @@
             </ul>
         </nav>
     </footer>
+
+    <!-- Theme Toggle Script -->
+    <script src="theme-toggle.js"></script>
+    <script src="view-transitions.js"></script>
 </body>
 </html>

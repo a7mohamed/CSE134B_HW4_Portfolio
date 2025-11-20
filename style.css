@@ -1,34 +1,75 @@
-/* === Required CSS Features Only === */
-
-/* 1. CSS Variables (with fallbacks) */
+/* === Theme Variables for Light/Dark Mode === */
 :root {
+  /* Theme colors */
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --header-bg: #0055aa;
+  --header-text: #ffffff;
+  --page-bg: #f9f9f9;
+  --form-bg: #f9f9f9;
+  --input-bg: #ffffff;
+  --input-border: #ccc;
+  --button-bg: #0055aa;
+  --button-hover: #0077dd;
+  --card-border: #ccc;
+  --link-color: #0055aa;
+  --nav-hover-bg: #003366;
+  
+  /* Existing variables */
   --main-color: #0055aa;
   --accent: #00bcd4;
-}
-body {
-  font-family: var(--main-font, Arial, sans-serif);
-  background: var(--page-bg, #f9f9f9);
-  margin: 0;
+  --main-font: Arial, sans-serif;
 }
 
-/* 2. Custom Font (with fallback) */
+/* Dark mode theme */
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --header-bg: #0d3a5c;
+  --header-text: #ffffff;
+  --page-bg: #2a2a2a;
+  --form-bg: #2a2a2a;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --button-bg: #0066cc;
+  --button-hover: #0088ff;
+  --card-border: #444444;
+  --link-color: #5ca3ff;
+  --nav-hover-bg: #1a4d7a;
+  --main-color: #0066cc;
+}
+
+/* Apply theme transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* === Custom Font === */
 @font-face {
   font-family: 'MainFont';
   src: url('fonts/Poppins-Regular.woff2') format('woff2');
 }
+
+/* === Base Styles === */
 body {
-  font-family: 'MainFont', var(--main-font, Arial), sans-serif;
+  font-family: 'MainFont', var(--main-font, Arial, sans-serif);
+  background: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-/* 3. Flexbox or Grid (10 pts) */
+/* === Header === */
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--main-color, blue);
-  color: white;
+  background: var(--header-bg);
+  color: var(--header-text);
   padding: 1rem;
 }
+
 nav ul {
   display: flex;
   gap: 1rem;
@@ -36,13 +77,29 @@ nav ul {
   padding: 0;
 }
 
-/* 4. Relative units (rem, %) */
+nav a {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  color: var(--header-text);
+  text-decoration: none;
+}
+
+nav a:hover, nav a:focus {
+  background: var(--nav-hover-bg);
+  color: #fff;
+}
+
+:is(header, footer) a {
+  color: var(--header-text);
+  text-decoration: none;
+}
+
+/* === Main Content === */
 main {
   padding: 2rem;
   font-size: 1rem;
 }
 
-/* 5. Dynamic viewport unit (dvh) */
 .hero-section {
   min-height: 50dvh;
   display: flex;
@@ -51,34 +108,58 @@ main {
   text-align: center;
 }
 
-/* 6. Animation / Transition */
+/* === Headings === */
+h1, h2, h3 {
+  color: var(--text-color);
+  margin-top: 1rem;
+}
+
+/* === Cards and Projects === */
 project-card {
   display: block;
-  border: 1px solid #ccc;
+  border: 1px solid var(--card-border);
   padding: 1rem;
   transition: transform 0.3s;
+  background: var(--form-bg);
 }
+
 project-card:hover {
   transform: scale(1.02);
 }
 
-/* 7. Media Query */
-@media (max-width: 700px) {
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* 8. Nested / Scoped CSS */
-:is(header, footer) a {
+/* === Buttons === */
+button {
+  background: var(--button-bg);
   color: white;
-  text-decoration: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-/* === Part 2 - Image Usage (Minimal CSS) === */
+button:hover {
+  background: var(--button-hover);
+}
 
-/* Optimize how images fit in their boxes */
+/* === Links === */
+a {
+  color: var(--link-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* === Forms === */
+input[type="text"],
+input[type="email"],
+textarea {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 2px solid var(--input-border);
+}
+
+/* === Images === */
 img {
   max-width: 100%;
   height: auto;
@@ -87,23 +168,60 @@ img {
   object-position: center;
 }
 
-/* Light background behind images for contrast/accessibility */
 picture, .animation-container, .image-gallery {
-  background: #f4f4f4;
+  background: var(--form-bg);
   padding: 0.5rem;
   border-radius: 4px;
 }
 
-/* SVG icons inherit text color for visibility */
 svg {
-  color: var(--main-color, #0055aa);
+  color: var(--main-color);
 }
 
-/* === Part 3 - Responsive Design (Minimal CSS) === */
+/* === Sections and Footer === */
+section, footer {
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
 
-/* Base: desktop default (already flex/grid from before) */
+/* === Theme Toggle Button === */
+.theme-toggle {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  padding: 12px 24px;
+  background-color: var(--button-bg);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
 
-/* Tablet: stack main sections slightly tighter */
+.theme-toggle:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+/* No-JS fallback message */
+.theme-toggle-nojs {
+  display: none;
+  padding: 10px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  margin: 10px;
+  text-align: center;
+  color: #856404;
+}
+
+/* === Responsive Design === */
+
+/* Tablet */
 @media (max-width: 1024px) {
   main {
     grid-template-columns: 1fr;
@@ -114,17 +232,23 @@ svg {
   }
 }
 
-/* Phone: vertical layout + hamburger menu */
+/* Phone */
+@media (max-width: 700px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 @media (max-width: 600px) {
   header {
     align-items: flex-start;
   }
 
   nav ul {
-    display: none; /* hide menu */
+    display: none;
   }
 
-  /* simple hamburger toggle placeholder */
   header::after {
     content: "☰ Menu";
     color: white;
@@ -141,57 +265,11 @@ svg {
     width: 100%;
     height: auto;
   }
-}
-
-/* === Part 4 - Aesthetics & Usability (Minimal CSS) === */
-
-/* Simple, readable layout */
-body {
-  color: #222;
-  background: #fff;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* Headings stand out clearly */
-h1, h2, h3 {
-  color: #000000;
-  margin-top: 1rem;
-}
-
-/* Navigation clarity */
-nav a {
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-}
-nav a:hover, nav a:focus {
-  background: #003366;
-  color: #fff;
-}
-
-/* Buttons easy to see and click */
-button {
-  background: #0055aa;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-button:hover {
-  background: #0077dd;
-}
-
-/* Consistent spacing for readability */
-section, footer {
-  margin-bottom: 2rem;
-  padding: 1rem;
-}
-
-/* Links visually clear but simple */
-a {
-  color: #0055aa;
-}
-a:hover {
-  text-decoration: underline;
+  
+  .theme-toggle {
+    top: 15px;
+    right: 15px;
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
 }

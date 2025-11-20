@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact form with JavaScript validation">
+    <title>Contact Form with JS - Abdirahman Mohamed</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="view-transitions.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--form-bg);
+            border-radius: 8px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        label {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            padding: 0.75rem;
+            border: 2px solid var(--input-border);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+        input:valid:not(:placeholder-shown),
+        textarea:valid:not(:placeholder-shown) {
+            border-color: #4caf50;
+        }
+        input:invalid:not(:placeholder-shown),
+        textarea:invalid:not(:placeholder-shown) {
+            border-color: #d32f2f;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0055aa;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        button[type="submit"] {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button[type="submit"]:hover {
+            background: var(--button-hover);
+        }
+        output {
+            display: block;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        #error-output {
+            background: #ffebee;
+            border: 1px solid #ef5350;
+            color: #c62828;
+        }
+        #info-output {
+            background: #e3f2fd;
+            border: 1px solid #42a5f5;
+            color: #1565c0;
+        }
+        output:empty {
+            display: none;
+        }
+        .helper-text {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        .char-counter {
+            font-size: 0.875rem;
+            color: #666;
+            text-align: right;
+        }
+        .char-counter.warning {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .char-counter.error {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        @keyframes flash-error {
+            0%, 100% { background-color: var(--input-bg); }
+            50% { background-color: #ffcdd2; }
+        }
+        .flash-error {
+            animation: flash-error 0.5s;
+        }
+        .field-error {
+            color: #d32f2f;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        🌙 Dark Mode
+    </button>
+
+    <noscript>
+        <div class="theme-toggle-nojs">
+            ⚠️ Theme toggle requires JavaScript. Default light mode is active.
+        </div>
+    </noscript>
+
+    <header>
+        <h1>Abdirahman Mohamed</h1>
+        <p><strong>Computer Science Student at UCSD</strong></p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="experiments.html">Experiments</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Contact Me (with JavaScript Validation)</h2>
+            <p>Fill out the form below to get in touch. I'll respond as soon as possible!</p>
+
+            <form action="https://httpbin.org/post" method="POST" id="contact-form" novalidate>
+                <input type="hidden" name="possible_bot" value="true">
+                <input type="hidden" name="form-errors" id="form-errors-field" value="">
+
+                <div class="form-group">
+                    <label for="name">Name: *</label>
+                    <input type="text" id="name" name="name" required minlength="2" maxlength="100"
+                        pattern="[A-Za-z\s\-']+" placeholder="Enter your full name">
+                    <span class="helper-text">2-100 characters, letters only</span>
+                    <span class="field-error" id="name-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email: *</label>
+                    <input type="email" id="email" name="email" required maxlength="254"
+                        placeholder="your.email@example.com">
+                    <span class="helper-text">Must be a valid email format</span>
+                    <span class="field-error" id="email-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Comments: *</label>
+                    <textarea id="comments" name="comments" required minlength="10" maxlength="500"
+                        placeholder="Enter your message here..."></textarea>
+                    <div class="char-counter" id="comments-counter">500 characters remaining</div>
+                    <span class="field-error" id="comments-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" minlength="3" maxlength="200"
+                        pattern="[A-Za-z0-9\s\-!?.,']+" placeholder="What is this regarding?">
+                    <span class="helper-text">Optional - 3-200 characters</span>
+                    <span class="field-error" id="subject-error"></span>
+                </div>
+
+                <button type="submit">Send Message</button>
+            </form>
+
+            <output id="error-output" for="name email comments" aria-live="polite"></output>
+            <output id="info-output" for="name email comments" aria-live="polite"></output>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Abdirahman Mohamed. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="https://github.com/yourusername" target="_blank">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a></li>
+                <li><a href="mailto:your.email@ucsd.edu">Email</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <script>
+        let form_errors = [];
+        let all_errors_history = [];
+        const form = document.getElementById('contact-form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const commentsInput = document.getElementById('comments');
+        const subjectInput = document.getElementById('subject');
+        const errorOutput = document.getElementById('error-output');
+        const infoOutput = document.getElementById('info-output');
+        const commentsCounter = document.getElementById('comments-counter');
+        const formErrorsField = document.getElementById('form-errors-field');
+
+        nameInput.addEventListener('input', function() {
+            const regex = /^[A-Za-z\s\-']*$/;
+            if (this.value && !regex.test(this.value)) {
+                this.classList.add('flash-error');
+                setTimeout(() => this.classList.remove('flash-error'), 500);
+            }
+        });
+
+        subjectInput.addEventListener('input', function() {
+            const regex = /^[A-Za-z0-9\s\-!?.,']*$/;
+            if (this.value && !regex.test(this.value)) {
+                this.classList.add('flash-error');
+                setTimeout(() => this.classList.remove('flash-error'), 500);
+            }
+        });
+
+        commentsInput.addEventListener('input', function() {
+            const maxLength = 500;
+            const currentLength = this.value.length;
+            const remaining = maxLength - currentLength;
+            commentsCounter.textContent = `${remaining} characters remaining`;
+            if (remaining < 0) {
+                commentsCounter.classList.add('error');
+                commentsCounter.classList.remove('warning');
+            } else if (remaining < 50) {
+                commentsCounter.classList.add('warning');
+                commentsCounter.classList.remove('error');
+            } else {
+                commentsCounter.classList.remove('warning', 'error');
+            }
+        });
+
+        function validateForm() {
+            form_errors = [];
+            let isValid = true;
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+            errorOutput.textContent = '';
+
+            if (!nameInput.value.trim()) {
+                form_errors.push({ field: 'name', message: 'Name is required' });
+                document.getElementById('name-error').textContent = 'Name is required';
+                isValid = false;
+            } else if (nameInput.value.length < 2) {
+                form_errors.push({ field: 'name', message: 'Name must be at least 2 characters' });
+                document.getElementById('name-error').textContent = 'Name must be at least 2 characters';
+                isValid = false;
+            } else if (!/^[A-Za-z\s\-']+$/.test(nameInput.value)) {
+                form_errors.push({ field: 'name', message: 'Name contains invalid characters' });
+                document.getElementById('name-error').textContent = 'Name contains invalid characters';
+                isValid = false;
+            }
+
+            if (!emailInput.value.trim()) {
+                form_errors.push({ field: 'email', message: 'Email is required' });
+                document.getElementById('email-error').textContent = 'Email is required';
+                isValid = false;
+            } else if (!emailInput.checkValidity()) {
+                form_errors.push({ field: 'email', message: 'Please enter a valid email address' });
+                document.getElementById('email-error').textContent = 'Please enter a valid email address';
+                isValid = false;
+            }
+
+            if (!commentsInput.value.trim()) {
+                form_errors.push({ field: 'comments', message: 'Comments are required' });
+                document.getElementById('comments-error').textContent = 'Comments are required';
+                isValid = false;
+            } else if (commentsInput.value.length < 10) {
+                form_errors.push({ field: 'comments', message: 'Comments must be at least 10 characters' });
+                document.getElementById('comments-error').textContent = 'Comments must be at least 10 characters';
+                isValid = false;
+            } else if (commentsInput.value.length > 500) {
+                form_errors.push({ field: 'comments', message: 'Comments exceed maximum length of 500 characters' });
+                document.getElementById('comments-error').textContent = 'Comments exceed maximum length';
+                isValid = false;
+            }
+
+            if (subjectInput.value && subjectInput.value.length < 3) {
+                form_errors.push({ field: 'subject', message: 'Subject must be at least 3 characters' });
+                document.getElementById('subject-error').textContent = 'Subject must be at least 3 characters';
+                isValid = false;
+            } else if (subjectInput.value && !/^[A-Za-z0-9\s\-!?.,']+$/.test(subjectInput.value)) {
+                form_errors.push({ field: 'subject', message: 'Subject contains invalid characters' });
+                document.getElementById('subject-error').textContent = 'Subject contains invalid characters';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                const errorMessages = form_errors.map(err => `${err.field}: ${err.message}`).join('; ');
+                errorOutput.textContent = `Please fix the following errors: ${errorMessages}`;
+                all_errors_history = all_errors_history.concat(form_errors);
+            }
+            return isValid;
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateForm()) {
+                infoOutput.textContent = 'Form is valid! Submitting...';
+                errorOutput.textContent = '';
+                formErrorsField.value = JSON.stringify(all_errors_history);
+                setTimeout(() => this.submit(), 500);
+            } else {
+                formErrorsField.value = JSON.stringify(all_errors_history);
+            }
+        });
+
+        nameInput.addEventListener('blur', function() {
+            if (this.value.trim() && /^[A-Za-z\s\-']+$/.test(this.value) && this.value.length >= 2) {
+                infoOutput.textContent = 'Name looks good!';
+                setTimeout(() => infoOutput.textContent = '', 3000);
+            }
+        });
+
+        emailInput.addEventListener('blur', function() {
+            if (this.value.trim() && this.checkValidity()) {
+                infoOutput.textContent = 'Email format is valid!';
+                setTimeout(() => infoOutput.textContent = '', 3000);
+            }
+        });
+    </script>
+    
+    <!-- Theme Toggle Script -->
+    <script src="theme-toggle.js"></script>
+    <script src="view-transitions.js"></script>
+</body>
+</html>

@@ -8,6 +8,7 @@
     <title>Your Name - CS Student Portfolio</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="view-transitions.css">
     <style>
         /* Only border for structure - staying under 3 CSS properties */
         skill-badge {
@@ -29,6 +30,17 @@
     </script>
 </head>
 <body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        🌙 Dark Mode
+    </button>
+
+    <noscript>
+        <div class="theme-toggle-nojs">
+            ⚠️ Theme toggle requires JavaScript. Default light mode is active.
+        </div>
+    </noscript>
+
     <hello-world></hello-world>
     
     <header>
@@ -285,5 +297,9 @@
     <noscript>
         <p>This website works best with JavaScript enabled. Some features may not function properly.</p>
     </noscript>
+
+    <!-- Theme Toggle Script -->
+    <script src="theme-toggle.js"></script>
+    <script src="view-transitions.js"></script>
 </body>
 </html>
